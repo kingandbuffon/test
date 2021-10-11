@@ -1,0 +1,1211 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.1.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3228",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Авторизация и регистрация"
+    },
+    {
+      "name": "Company",
+      "description": "Companies endpoints"
+    },
+    {
+      "name": "Contact",
+      "description": "Contacts endpoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Авторизация"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Авторизация по логину/паролю.",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "description": "Параметры для входа",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthLogin"
+            },
+            "description": "Верная авторизация."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Регистрация по логину/паролю.",
+        "parameters": [
+          {
+            "name": "newUser",
+            "in": "body",
+            "description": "Параметры для входа",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthSignup"
+            },
+            "description": "Пользователь создан."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Обновление succsess токена по refresh токену.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthSignup"
+            },
+            "description": "Пользователь создан."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/companies\r/{id}": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Запрос компаний по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Компании."
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Изменение компании по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Компании."
+          },
+          {
+            "name": "Company",
+            "in": "body",
+            "description": "Данные компании",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Удаление Компании по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Компании."
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeleteCompany"
+            },
+            "description": "Положительный ответ."
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/companies\r/": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Запрос всех компаний или компаний по фильтру.",
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Компании с определенным полным названием.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "description": "Компании с определенным статусом.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "shortName",
+            "description": "Компании с определенным коротким названием.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "contactId",
+            "description": "Компании с определенным контактом.",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "businessEntity",
+            "description": "Компании с определенной бизнесс-структурой.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "page",
+            "description": "Номер страницы.",
+            "type": "number",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Добавление компании.",
+        "parameters": [
+          {
+            "name": "Company",
+            "in": "body",
+            "description": "Данные компании",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/companies\r/{id}/image": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Загрузка картинки Компании по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Компании."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Положительный ответ.",
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/companies\r/{id}/image/{image_name}": {
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "description": "Удаление картинки Компании по имени.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Компании."
+          },
+          {
+            "name": "image_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Имя картинки."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Положительный ответ.",
+            "schema": {
+              "$ref": "#/definitions/CompanyResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/contacts\r/{id}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Запрос контакта по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Контакта."
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ContactResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Изменение контакта по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Контакта."
+          },
+          {
+            "name": "Contact",
+            "in": "body",
+            "description": "Данные контакта",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ContactResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Удаление Контакта по ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID Контакта."
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeleteContact"
+            },
+            "description": "Положительный ответ."
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/contacts\r/": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Запрос всех контактов или контактов по фильтру.",
+        "parameters": [
+          {
+            "name": "page",
+            "description": "Номер страницы.",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "lastname",
+            "description": "Контакты с определенной фамилией.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "firstname",
+            "description": "Контакты с определенным именем.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "patronymic",
+            "description": "Контакты с определенныь отчеством.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "phone",
+            "description": "Контакты с определенныь телефоном.",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "email",
+            "description": "Контакты с определенной почтой.",
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ContactResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Добавление контакта.",
+        "parameters": [
+          {
+            "name": "Contact",
+            "in": "body",
+            "description": "Данные контакта",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ContactResponse"
+            },
+            "description": "Положительный ответ."
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "lastName": {
+          "type": "string",
+          "example": "Григорьев"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Сергей"
+        },
+        "patronymic": {
+          "type": "string",
+          "example": "Петрович"
+        },
+        "phone": {
+          "type": "string",
+          "example": "79162165588"
+        },
+        "email": {
+          "type": "string",
+          "example": "grigoriev@funeral.com"
+        }
+      }
+    },
+    "ContactResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Григорьев"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Сергей"
+        },
+        "patronymic": {
+          "type": "string",
+          "example": "Петрович"
+        },
+        "phone": {
+          "type": "string",
+          "example": "79162165588"
+        },
+        "email": {
+          "type": "string",
+          "example": "grigoriev@funeral.com"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        }
+      }
+    },
+    "Company": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "ООО Фирма «Перспективные захоронения»"
+        },
+        "shortName": {
+          "type": "string",
+          "example": "Перспективные захоронения"
+        },
+        "businessEntity": {
+          "type": "string",
+          "example": "ООО"
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "no": {
+              "type": "string",
+              "example": "12345"
+            },
+            "issue_date": {
+              "type": "string",
+              "example": "2015-03-12T00:00:00Z"
+            }
+          }
+        },
+        "type": {
+          "type": "array",
+          "example": [
+            "agent",
+            "contractor"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "skdjfhskdjh.png"
+              },
+              "filepath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh.png"
+              },
+              "thumbpath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh_160x160.png"
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "string",
+          "example": "address"
+        },
+        "contactId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "CompanyResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "ООО Фирма «Перспективные захоронения»"
+        },
+        "shortName": {
+          "type": "string",
+          "example": "Перспективные захоронения"
+        },
+        "businessEntity": {
+          "type": "string",
+          "example": "ООО"
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "no": {
+              "type": "string",
+              "example": "12345"
+            },
+            "issue_date": {
+              "type": "string",
+              "example": "2015-03-12T00:00:00Z"
+            }
+          }
+        },
+        "type": {
+          "type": "array",
+          "example": [
+            "agent",
+            "contractor"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "skdjfhskdjh.png"
+              },
+              "filepath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh.png"
+              },
+              "thumbpath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh_160x160.png"
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "string",
+          "example": "address"
+        },
+        "contactId": {
+          "type": "number",
+          "example": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        }
+      }
+    },
+    "ContactIncludCompanies": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Григорьев"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Сергей"
+        },
+        "patronymic": {
+          "type": "string",
+          "example": "Петрович"
+        },
+        "phone": {
+          "type": "string",
+          "example": "79162165588"
+        },
+        "email": {
+          "type": "string",
+          "example": "grigoriev@funeral.com"
+        },
+        "companies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Companies"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        }
+      }
+    },
+    "CompanyIncludContact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "ООО Фирма «Перспективные захоронения»"
+        },
+        "shortName": {
+          "type": "string",
+          "example": "Перспективные захоронения"
+        },
+        "businessEntity": {
+          "type": "string",
+          "example": "ООО"
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "no": {
+              "type": "string",
+              "example": "12345"
+            },
+            "issue_date": {
+              "type": "string",
+              "example": "2015-03-12T00:00:00Z"
+            }
+          }
+        },
+        "type": {
+          "type": "array",
+          "example": [
+            "agent",
+            "contractor"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "skdjfhskdjh.png"
+              },
+              "filepath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh.png"
+              },
+              "thumbpath": {
+                "type": "string",
+                "example": "http://localhost:5000/skdjfhskdjh_160x160.png"
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "string",
+          "example": "address"
+        },
+        "contact": {
+          "$ref": "#/definitions/Contacts"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "Sun Oct 10 2021 21:54:39 GMT+0200 (Восточная Европа, стандартное время)"
+        }
+      }
+    },
+    "AddUser": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "example": "User"
+        },
+        "password": {
+          "type": "string",
+          "example": "pass"
+        }
+      },
+      "required": [
+        "user",
+        "password"
+      ]
+    },
+    "AuthLogin": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "token"
+        },
+        "expiresIn": {
+          "type": "string",
+          "example": "expiresIn"
+        }
+      }
+    },
+    "AuthSignup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "login": {
+          "type": "string",
+          "example": "User1"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Ошибка"
+        }
+      }
+    },
+    "DeleteContact": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "DeleteCompany": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    }
+  }
+}

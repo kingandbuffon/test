@@ -1,0 +1,47 @@
+{
+  "name": "testtaskapi",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha --exit",
+    "doc:gen": "node ./doc/swagger.autogen.js"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.0",
+    "express-http-context": "^1.2.4",
+    "http-errors": "~1.6.2",
+    "jimp": "^0.16.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "log4js": "^6.3.0",
+    "marked": "^2.0.1",
+    "morgan": "~1.9.0",
+    "multer": "^1.4.2",
+    "node-cron": "^2.0.3",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "qs": "^6.10.1",
+    "sequelize": "^6.6.5",
+    "swagger-autogen": "^2.11.2",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "mocha": "^5.1.1",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^3.4.2"
+  }
+}
